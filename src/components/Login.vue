@@ -61,10 +61,8 @@
 			//登陆验证
 			login(){
 				this.$refs.loginFromRef.validate(async valid=>{
-					console.log(valid)
 					if(!valid)return;
 					const {data : res} = await this.$http.post("login",this.loginForm)
-					console.log(res.data.token)
 					this.getToken = res.data.token
 					if(res.meta.status !== 200){
 						return this.$message.error('登陆失败！')
@@ -115,7 +113,6 @@
 					width:100%;
 					height:100%;
 					border-radius: 50%;
-					border: 1px solid #EEEEEE;
 					background-color: #EEEEEE;
 				}
 			}
