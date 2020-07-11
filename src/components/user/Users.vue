@@ -419,7 +419,6 @@
 			console.log(this.roleInfo.id+">>"+this.selectRoleId)
 			// const  {data:res}  = await this.$http.put(`users/${this.roleInfo.id}/role/rid/${this.selectRoleId}`);
 			const {data:res} = await this.$http.put(`users/${this.roleInfo.id}/role/rid/${this.selectRoleId}`);
-			console.log(res)
 			if(res.meta.status !== 200) return this.$message.error('分配角色失败');
 			this.$message.success('分配角色成功');
 			this.getUserList();
