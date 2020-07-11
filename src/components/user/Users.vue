@@ -11,7 +11,7 @@
 			<el-row :gutter="20">
 				<!-- 搜索框 -->
 				<el-col :span="7">
-					<el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList()">
+					<el-input placeholder="请输入内容" v-model="queryInfo.query"  clearable @clear="getUserList()">
 						<el-button slot="append" icon="el-icon-search" @click="getUserList()"></el-button>
 					</el-input>
 				</el-col>
@@ -45,7 +45,7 @@
 						<el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteUser(data.row.id)"></el-button>
 						<!-- 角色分配 -->
 						<el-tooltip effect="dark" content="角色分配" placement="top" :enterable="false">
-							<el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+							<el-button type="warning" icon="el-icon-setting" size="mini" @click="roleAssignment(data.row)"></el-button>
 						</el-tooltip>
 					</template>
 				</el-table-column>
@@ -98,6 +98,29 @@
 					<el-button type="primary" @click="editUserSure">确 定</el-button>
 				</span>
 			</el-dialog>
+			<!-- 角色分配 -->
+			<el-dialog title="分配角色" :visible.sync="roleDialogVisible" width="50%">
+				<!-- 主体区域 -->
+				<div class="setRole">
+					<p>当前用户：{{roleInfo.username}}</p>
+					<p>当前角色：{{roleInfo.role_name}}</p>
+					<p>分配新角色：<template>
+							  <el-select v-model="selectRoleId" placeholder="请选择">
+							    <el-option
+							      v-for="item in getRoleList"
+							      :key="item.id"
+							      :label="item.roleName"
+							      :value="item.id">
+							    </el-option>
+							  </el-select>
+							</template></p>
+				</div>
+				<!-- footer区域 -->
+				<span slot="footer" class="dialog-footer">
+					<el-button @click="roleDialogVisible = false">取 消</el-button>
+					<el-button type="primary" @click="setRoleSave">确 定</el-button>
+				</span>
+			</el-dialog>
 		</el-card>
 	</div>
 </template>
@@ -131,11 +154,19 @@
 				total: 0,
 				dialogVisible: false,
 				EditdialogVisible: false,
+				roleDialogVisible:false,
+				roleUserName:'',
+				getRoleList:[],
+				selectRoleId:'', //已选中的角色ID值
 				addUser: {
 					username: '',
 					password: '',
 					email: '',
 					mobile: ''
+				},
+				roleInfo:{
+					role_name:'',
+					username:''
 				},
 				editUser: {
 					username: '',
@@ -242,9 +273,8 @@
 				} = await this.$http.get('users', {
 					params: this.queryInfo
 				});
-				console.log(res.data)
 				if (res.meta.status !== 200) {
-					return this.$message.error(res.meta.msg)
+					return this.$message.error('获取数据失败')
 				}
 				this.userList = res.data.users;
 				this.total = res.data.total;
@@ -306,7 +336,7 @@
 				} = await this.$http.get('users/' + id);
 				this.editUser = res.data
 				this.EditdialogVisible = true;
-				console.log(res)
+				
 			},
 			closeEditDialog() { // 关闭编辑对话框
 				this.$refs.editUserRef.resetFields();
@@ -344,8 +374,7 @@
 		// 		});
 		// 	}
 		// },
-	  async	deleteUser(id) { //删除用户
-			console.log(id)
+		async	deleteUser(id) { //删除用户
 			this.$confirm('是否删除该信息?', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
@@ -370,10 +399,39 @@
 					message: '已取消删除'
 				});
 			});
+		},
+		//分配角色
+		async roleAssignment(roleInfo){
+			//获取当前用户数据
+			this.roleInfo = roleInfo;
+			//获取所有角色数据
+			const {data:res} = await this.$http.get('roles');
+			if (res.meta.status !== 200) {
+				return this.$message.error('获取角色列表失败')
+			}
+			this.getRoleList =res.data;
+			this.roleDialogVisible = true;
+		},
+		async setRoleSave(){
+			if(!this.selectRoleId){
+				this.$message.error('请选择分配的角色')
+			}
+			console.log(this.roleInfo.id+">>"+this.selectRoleId)
+			// const  {data:res}  = await this.$http.put(`users/${this.roleInfo.id}/role/rid/${this.selectRoleId}`);
+			const {data:res} = await this.$http.put(`users/${this.roleInfo.id}/role/rid/${this.selectRoleId}`);
+			console.log(res)
+			if(res.meta.status !== 200) return this.$message.error('分配角色失败');
+			this.$message.success('分配角色成功');
+			this.getUserList();
+			this.roleDialogVisible = false;
 		}
+			
 	}
-	}
+}
 </script>
 
-<style>
+<style lang="less" scoped="scoped">
+	.setRole p{
+		margin-bottom: 5px;
+	}
 </style>
