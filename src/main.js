@@ -6,8 +6,10 @@ import './plugins/element.js'
 import './assets/css/global.css'
 // 导入icon图标
 import './assets/fonts/iconfont.css'
+import TreeTable  from 'vue-table-with-tree-grid'
 import axios from 'axios'
 Vue.prototype.$http = axios
+Vue.component('tree-table',TreeTable)
 //配置请求根路径
 axios.defaults.baseURL = 'http://47.115.124.102:8888/api/private/v1/'
 // axios.defaults.baseURL = 'http://timemeetyou.com:8889/api/private/v1/'
