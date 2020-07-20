@@ -223,7 +223,7 @@
 				this.dialogEditVisible = true;
 			},
 			cateEditSure(){
-				this.$refs.editCateRef.validate(  (valid)=>{
+				this.$refs.editCateRef.validate( async (valid)=>{
 					if(!valid) return 
 					const {data:res} =await this.$http.put(`categories/${this.edit_cat_pid}/${this.editCateForm.cat_name}`);
 					// this.$http.put('categories/'+this.edit_cat_pid+'/'+this.editCateForm.cat_name).then((res)=>{
