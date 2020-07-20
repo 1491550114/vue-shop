@@ -216,11 +216,10 @@
 					 this.manyTableData=[];
 					 return
 				};
-				const {data:res} = await this.$http.get(`categories/${this.cateId}/attributes/`, {
+				const {data:res} = await this.$http.get(`categories/${this.cateId}/attributes`, {
 					params:{sel:this.activeName},
 				});
 				res.data.forEach(item =>{
-					
 					item.attr_vals=  item.attr_vals ? item.attr_vals.split(' ') :[];
 					item.inputValue ='';
 					item.inputVisible = false;

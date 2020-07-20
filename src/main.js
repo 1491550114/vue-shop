@@ -8,6 +8,13 @@ import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
 import TreeTable  from 'vue-table-with-tree-grid'
 import axios from 'axios'
+
+import VueQuillEditor from 'vue-quill-editor' //富文本框插件
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
+
+Vue.use(VueQuillEditor)
 Vue.prototype.$http = axios
 Vue.component('tree-table',TreeTable)
 //配置请求根路径
@@ -26,6 +33,16 @@ Vue.directive('focus', {
     // 聚焦元素
     el.querySelector('input').focus()
   }
+})
+Vue.filter('formDate',function(val){
+	const date = new Date(val);
+	const y = date.getFullYear();
+	const m = (date.getMonth()).toString().padStart(2,'0');
+	const d = (date.getDate()).toString().padStart(2,'0');
+	const hh = (date.getHours()).toString().padStart(2,'0');
+	const mm = (date.getMinutes()).toString().padStart(2,'0');
+	const ss = (date.getSeconds()).toString().padStart(2,'0');
+	return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
 Vue.config.productionTip = false
 
