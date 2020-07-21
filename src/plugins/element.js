@@ -39,7 +39,9 @@ import {
 	Checkbox,
 	CheckboxButton,
 	CheckboxGroup,
-	Upload
+	Upload,
+	Timeline,
+	TimelineItem,
 } from 'element-ui'
 // Vue.component(Message.name, Message)
 Vue.use(Button)
@@ -80,6 +82,8 @@ Vue.use(Checkbox)
 Vue.use(CheckboxButton)
 Vue.use(CheckboxGroup)
 Vue.use(Upload)
+Vue.use(Timeline)
+Vue.use(TimelineItem)
 //把message挂在到Vue中，全局可以使用
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
