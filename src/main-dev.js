@@ -15,6 +15,10 @@ import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
 
 
+// 导入nprogress进度条
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 
 Vue.use(VueQuillEditor)
 Vue.prototype.$http = axios
@@ -25,9 +29,16 @@ axios.defaults.baseURL = 'http://47.115.124.102:8888/api/private/v1/'
 // axios.defaults.baseURL ='https://www.liulongbin.top:8888/api/private/v1/'
 //axios 添加请求拦截器
 axios.interceptors.request.use(config => {
+	// NProgress.start()
 	config.headers.Authorization = window.sessionStorage.getItem('token');
 	return config;
 });
+
+// axios.interceptors.response.use(config => {
+// 	NProgress.done();
+// 	return config;
+// });
+
 //vue进入页面自动获取input框焦点
 Vue.directive('focus', {
   // 当被绑定的元素插入到 DOM 中时……

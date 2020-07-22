@@ -11,6 +11,7 @@ import List from '../components/goods/List'
 import Add from '../components/goods/Add'
 import Params from '../components/goods/Params'
 import Order from '../components/order/Order'
+import Report from '../components/report/Report'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -55,10 +56,17 @@ const routes = [{
 			},{
 				path: '/orders',
 				component: Order
+			},{
+				path: '/reports',
+				component: Report
 			},
 		]
 	}
 ]
+// 导入nprogress进度条
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
 	return originalPush.call(this, location).catch(err => err)
@@ -76,9 +84,13 @@ router.beforeEach((to, from, next) => {
 	 * next()  表示饭放行
 	 * next()放行   next('/login') 强制跳转
 	 * */
+	 NProgress.start();
 	if (to.path === '/login') return next();
 	const tokenStr = window.sessionStorage.getItem('token');
 	if (!tokenStr) return next('/login');
 	next();
+})
+router.afterEach(() => {
+	NProgress.done()
 })
 export default router

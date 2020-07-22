@@ -9,7 +9,7 @@
 		<!-- 主体区域 -->
 		<el-card>
 			<el-button type="primary" @click="openRolesDialog">添加角色</el-button>
-			<el-table :data="getRolesData" style="width: 100%;" border stripe>
+			<el-table :data="getRolesData" style="width: 100%;" border stripe row-key="id">
 				<!-- 展开列 -->
 				<el-table-column type="expand" >
 				      <template v-slot="props">

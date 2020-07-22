@@ -10,7 +10,7 @@
 		<el-card >
 			<!-- alert警告 -->
 			<el-alert
-			    title="注意：只允许为第三级分类设置相关参数！" type="warning" show-icon :closable="false">
+			    title="注意：只允许为第三级分类设置相关参数！"  type="warning" show-icon :closable="false">
 			</el-alert>
 			<!-- 级联选择 -->
 			<div class="card_opt">
@@ -28,7 +28,7 @@
 				<!-- 动态参数 -->
 				<el-tab-pane label="动态参数" name="many">
 					<el-button type="primary" size="mini" :disabled="isDisabled" @click="showDialog">添加参数</el-button>
-					<el-table :data="manyTableData" border stripe>
+					<el-table :data="manyTableData" border stripe row-key="id">
 						<el-table-column type="expand">
 							<template v-slot="scope">
 								<el-tag

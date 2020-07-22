@@ -53,6 +53,15 @@
 				}
 			}
 		},
+		created(){ //enter登录事件
+			let _self =this
+			document.onkeydown = function(e){
+				let key = window.event.keyCode
+				if(key === 13){
+					 _self.login();
+				}
+			}
+		},
 		methods:{
 			//重置表单数据
 			resetLoginForm(){
